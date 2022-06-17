@@ -18,6 +18,7 @@ pipeline {
         stage('Prune Docker data') {
       steps {
         sh 'docker system prune -a --volumes -f'
+        sh 'docker image prune'
         
       }
     }
@@ -26,6 +27,7 @@ pipeline {
         sh 'docker-compose up -d'
         sh 'docker compose ps'
       }
+    }
     }
  
   post {
