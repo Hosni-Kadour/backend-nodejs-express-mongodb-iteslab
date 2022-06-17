@@ -22,7 +22,7 @@ pipeline {
     }
     stage('Start container') {
       steps {
-        sh 'docker compose up '
+        sh 'docker-compose up '
         sh 'docker compose ps'
       }
     }
