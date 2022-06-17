@@ -18,20 +18,16 @@ pipeline {
         stage('Prune Docker data') {
       steps {
         sh 'docker system prune -a --volumes -f'
+        sh 'docker image prune'
       }
     }
     stage('Start container') {
       steps {
-        sh 'docker-compose up '
+        sh 'docker-compose up -d'
         sh 'docker compose ps'
       }
     }
-    stage('Run tests against the container') {
-      steps {
-        sh 'curl http://localhost:4000/param?query=demo '
-      }
-    }
-  }
+ 
   post {
     always {
       sh 'docker compose down --remove-orphans -v'
