@@ -18,12 +18,14 @@ pipeline {
         stage('Prune Docker data') {
       steps {
         sh 'docker system prune -a --volumes -f'
-        sh 'docker image prune'
+        
         
       }
     }
     stage('Start container') {
       steps {
+        
+         sh 'docker image prune'
         sh 'docker-compose up -d'
         sh 'docker compose ps'
       }
