@@ -1,21 +1,42 @@
-pipeline {
-    agent any
 
-    environment {
-		DOCKERHUB_CREDENTIALS=credentials('dockerhub')
-	}
-    stages {
-        stage('Docker Login') {
-            steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-            }
+        
+        pipeline {
+  environment {
+    imagename = "hosnikadour/backend-iteslab"
+    registryCredential = 'dockerhub'
+    dockerImage = ''
+  }
+  agent any
+  stages {
+   
+
+       stage('Prune Docker data') {
+      steps {
+        sh 'docker system prune -a --volumes -f'
+        sh 'docker image prune'
+        
+      }
+    }
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build imagename
         }
-        stage('Build & push Dockerfile') {
-            steps {
-                sh "ansible-playbook ansible-playbook.yml"
-            }
+      }
+    }
+    stage('Deploy Image') {
+      steps{
+        script {
+          docker.withRegistry( '', registryCredential ) {
+            dockerImage.push("$BUILD_NUMBER")
+              dockerImage.push('latest') 
+            
         }
-        stage('Prune Docker data') {
+        }
+        }
+        }
+
+         stage('Prune Docker data') {
       steps {
         sh 'docker system prune -a --volumes -f'
         sh 'docker image prune'
