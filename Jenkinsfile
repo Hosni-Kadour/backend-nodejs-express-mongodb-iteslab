@@ -18,24 +18,22 @@ pipeline {
         stage('Prune Docker data') {
       steps {
         sh 'docker system prune -a --volumes -f'
-        
-        
+        sh 'docker image prune'
       }
     }
     stage('Start container') {
       steps {
         
-         sh 'docker image prune'
         sh 'docker-compose up -d'
-        sh 'docker compose ps'
+        sh 'docker-compose ps'
       }
     }
     }
  
   post {
     always {
-      sh 'docker compose down --remove-orphans -v'
-      sh 'docker compose ps'
+      sh 'docker-compose down --remove-orphans -v'
+      sh 'docker-compose ps'
     }
   }
 }
