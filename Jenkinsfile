@@ -9,14 +9,6 @@
   agent any
   stages {
    
-
-       stage('Prune Docker data') {
-      steps {
-        sh 'docker system prune -a --volumes -f'
-        sh 'docker image prune'
-        
-      }
-    }
     stage('Building image') {
       steps{
         script {
