@@ -31,7 +31,7 @@
          stage('Prune Docker data') {
       steps {
         sh 'docker system prune -a --volumes -f'
-        sh 'docker image prune'
+        sh 'docker image prune -f'
       }
     }
     stage('Start container') {
