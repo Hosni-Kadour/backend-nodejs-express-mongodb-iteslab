@@ -17,24 +17,24 @@
                 sh "ansible-playbook ansible-playbook.yml"
             }
         }
-
-
-         stage('Prune Docker data') {
+ stage('Start container') {
       steps {
-        sh 'docker system prune -a --volumes -f'
+         sh 'docker system prune -a --volumes -f'
         sh 'docker image prune -f'
+        sh 'docker-compose up -d'
+        sh 'docker-compose ps'
       }
     }
-  
- 
-  stage('Run Dockercompose playbook') {
-            steps {
-                sh "ansible-playbook playbook-compose.yml"
-                
-            }
-        }
     }
+    post {
+    always {
+      sh 'docker-compose down --remove-orphans -v'
+      sh 'docker-compose ps'
+    }
+  }
 }
+
+
 
 
          
