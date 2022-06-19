@@ -1,32 +1,23 @@
 
         
-        pipeline {
-  environment {
-    imagename = "hosnikadour/backend-iteslab"
-    registryCredential = 'dockerhub'
-    dockerImage = ''
-  }
-  agent any
-  stages {
-   
-    stage('Building image') {
-      steps{
-        script {
-          dockerImage = docker.build imagename
+  pipeline {
+    agent any
+
+    environment {
+		DOCKERHUB_CREDENTIALS=credentials('dockerhub')
+	}
+    stages {
+        stage('Docker Login') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
         }
-      }
-    }
-    stage('Deploy Image') {
-      steps{
-        script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push("$BUILD_NUMBER")
-              dockerImage.push('latest') 
-            
+        stage('Build & push Dockerfile') {
+            steps {
+                sh "ansible-playbook ansible-playbook.yml"
+            }
         }
-        }
-        }
-        }
+
 
          stage('Prune Docker data') {
       steps {
@@ -34,21 +25,15 @@
         sh 'docker image prune -f'
       }
     }
-    stage('Start container') {
-      steps {
-        
-        sh 'docker-compose up -d'
-        sh 'docker-compose ps'
-      }
-    }
-    }
+  
  
-  post {
-    always {
-      sh 'docker-compose down --remove-orphans -v'
-      sh 'docker-compose ps'
+  stage('Run Dockercompose playbook') {
+            steps {
+                sh "ansible-playbook playbook-compose.yml"
+                
+            }
+        }
     }
-  }
 }
 
 

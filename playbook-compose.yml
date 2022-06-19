@@ -1,0 +1,24 @@
+---
+- name: "Run Docker-Compose using ansible playbook"
+  hosts: localhost
+  tasks:
+  - name: stop and remove containers
+    command: docker-compose down
+    ignore_errors: yes
+
+  # Make sure to change the image name with your personal dockerhub account and reposiroty 
+  - name: remove image built with dockercompose
+    command: docker rmi hosnikadour/backend-iteslab
+    ignore_errors: yes
+
+  - name: remove nodejs image
+    command: docker rmi node:16
+    ignore_errors: yes
+
+  - name: remove mysql image
+    command: docker rmi mongo
+    ignore_errors: yes
+
+  - name: build docker-compose
+    command: docker-compose up -d 
+  
