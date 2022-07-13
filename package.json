@@ -3,7 +3,7 @@
   "version": "5.0.0",
   "description": "",
   "main": "app.js",
-  "type" : "module",
+  "type": "module",
   "scripts": {
     "start": "nodemon app.js",
     "test": "mocha"
@@ -29,6 +29,7 @@
     "@types/node-fetch": "^2.6.1",
     "mocha": "^10.0.0",
     "nodemon": "^2.0.16",
+    "sonarqube-scanner": "^2.8.1",
     "supertest": "^6.2.3"
   }
 }
