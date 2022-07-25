@@ -29,9 +29,9 @@ stage('deploy on k8s') {
       sh "scp -o strictHostkeyChecking=no webapp.yml ubuntu@184.72.82.178:/home/ubuntu"
       script{
         try{
-          sh "ssh ubuntu@54.224.189.232 kubectl apply  -f ."
+          sh "ssh ubuntu@184.72.82.178 kubectl apply  -f ."
         }catch(error){
-           sh "ssh ubuntu@54.224.189.232 kubectl create  -f ."
+           sh "ssh ubuntu@184.72.82.178 kubectl create  -f ."
         }                                                    
       }
 }
