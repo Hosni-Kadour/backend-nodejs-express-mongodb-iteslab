@@ -23,15 +23,16 @@ stage('deploy on k8s') {
 
      steps {
       sshagent(['k8s']) {
-      sh "scp -o strictHostkeyChecking=no mongo-config.yml ubuntu@184.72.82.178:/home/ubuntu"
-      sh "scp -o strictHostkeyChecking=no mongo-secret.yml ubuntu@184.72.82.178:/home/ubuntu"
-      sh "scp -o strictHostkeyChecking=no mongo.yml ubuntu@184.72.82.178:/home/ubuntu"
-      sh "scp -o strictHostkeyChecking=no webapp.yml ubuntu@184.72.82.178:/home/ubuntu"
+      sh "export AWS_SHARED_CREDENTIALS_FILE=/tmp/credentials"
+      sh "scp -o strictHostkeyChecking=no mongo-config.yml ubuntu@54.242.60.53:/home/ubuntu"
+      sh "scp -o strictHostkeyChecking=no mongo-secret.yml ubuntu@54.242.60.53:/home/ubuntu"
+      sh "scp -o strictHostkeyChecking=no mongo.yml ubuntu@54.242.60.53:/home/ubuntu"
+      sh "scp -o strictHostkeyChecking=no webapp.yml ubuntu@54.242.60.53:/home/ubuntu"
       script{
         try{
-          sh "ssh ubuntu@184.72.82.178 kubectl apply  -f ."
+          sh "ssh ubuntu@54.242.60.53 kubectl apply  -f ."
         }catch(error){
-           sh "ssh ubuntu@184.72.82.178 kubectl create  -f ."
+           sh "ssh ubuntu@54.242.60.53 kubectl create  -f ."
         }                                                    
       }
 }
