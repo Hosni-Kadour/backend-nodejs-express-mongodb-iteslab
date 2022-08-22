@@ -20,5 +20,5 @@
   - name: push image to dockerhub
     command: docker push hosnikadour/backend-iteslab
   - name: run container
-    command: docker run -d --restart=always --name nodejs-app -p 3000:80 hosnikadour/backend-iteslab
+    command: docker run -d --restart=always --name nodejs-app -p 4000:7000 hosnikadour/backend-iteslab
    
