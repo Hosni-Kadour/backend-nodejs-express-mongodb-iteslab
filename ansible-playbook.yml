@@ -11,14 +11,14 @@
     ignore_errors: yes
 # Make sure to change the image name with your personal dockerhub account and reposiroty   
   - name: remove used image
-    command: docker rmi hosnikadour/backend-iteslab:v3
+    command: docker rmi hosnikadour/backend-iteslab:v4
     ignore_errors: yes
 # Make sure to change the image name with your personal dockerhub account and reposiroty 
   - name: build docker image from dockerfile
-    command: docker build -t hosnikadour/backend-iteslab:v3 .  
+    command: docker build -t hosnikadour/backend-iteslab:v4 .  
 # Make sure to change the image name with your personal dockerhub account and reposiroty 
   - name: push image to dockerhub
-    command: docker push hosnikadour/backend-iteslab:v3
+    command: docker push hosnikadour/backend-iteslab:v4
   - name: run container
-    command: docker run -d --restart=always --name nodejs-app -p 7000:4000 hosnikadour/backend-iteslab:v3
+    command: docker run -d --restart=always --name nodejs-app -p 7000:4000 hosnikadour/backend-iteslab:v4
    
